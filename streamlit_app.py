@@ -1,6 +1,5 @@
 #import python package
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.funtions import col
 
 #write directly to app
@@ -13,7 +12,8 @@ st.write(
 Name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name of your smoothie will be :', Name_on_order)
 
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 ingredients_list = st.multiselect(
